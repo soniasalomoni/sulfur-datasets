@@ -390,7 +390,7 @@ ngj1 = [1.0e-5, 1.0e-4, 1.0e-3, 0.01, 0.1, 1.0]
 for ng in range(ngrid):
     ee = []
     eML =[]
-    for i,(s,e) in enumerate(zip(LiPSdataset,energiesXTB_mencoes)):
+    for i,(s,e) in enumerate(zip(LiPSdataset,energiesXTB)):
         ee.append(e/len(s))
         eML.append((baseline_energies[i,0,ng])/len(s))
     
