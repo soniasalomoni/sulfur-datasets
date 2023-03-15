@@ -340,8 +340,8 @@ for lambda1 in l1:
             train_ids = [int(i) for i in ids[:ntrain]]
             frames_train = [LiPSdataset[ii] for ii in train_ids]
 
-            #en_train = [energiesXTB[ii] for ii in train_ids]
-            en_train = [energiesXTB_mencoes[ii]for ii in train_ids]
+            en_train = [energiesXTB[ii] for ii in train_ids]
+            #en_train = [energiesXTB_mencoes[ii]for ii in train_ids]
             en_train = np.array(en_train)
 
             f_train = [forcesXTB[ii] for ii in train_ids]
@@ -365,7 +365,7 @@ for lambda1 in l1:
                 KnM_gradients = np.array(KnM_gradients)
                 print(KnM_gradients.shape, KnM_energies.shape, en_train.shape, f_train_fl.shape, len(KnM_gradients[:, 0]))
                 KnM = np.vstack([KnM_energies, KnM_gradients])
-                baseline.append(train_gap_model(kernel_base, frames_train[:nn], KnM, X_sparse_baseline, en_train[:nn], energy_zero, 
+                baseline.append(train_gap_model(kernel_base, frames_train[:nn], KnM, X_sparse_baseline, en_train[:nn], energy_baseline, 
                                     grad_train=-f_train_fl[:len(KnM_gradients[:, 0])], 
                                     lambdas=[lambda1, lambda2], jitter=1e-5,solver='RKHS-QR'))
 

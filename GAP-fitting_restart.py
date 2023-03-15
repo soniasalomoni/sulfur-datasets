@@ -301,8 +301,8 @@ for lambda1 in l1:
             train_ids = [int(i) for i in ids[:ntrain]]
             frames_train = [LiPSdataset[ii] for ii in train_ids]
 
-            #en_train = [energiesXTB[ii] for ii in train_ids]
-            en_train = [energiesXTB_mencoes[ii]for ii in train_ids]
+            en_train = [energiesXTB[ii] for ii in train_ids]
+            #en_train = [energiesXTB_mencoes[ii]for ii in train_ids]
             en_train = np.array(en_train)
 
             f_train = [forcesXTB[ii] for ii in train_ids]
@@ -326,7 +326,7 @@ for lambda1 in l1:
                 KnM_gradients = np.array(KnM_gradients)
                 print(KnM_gradients.shape, KnM_energies.shape, en_train.shape, f_train_fl.shape, len(KnM_gradients[:, 0]))
                 KnM = np.vstack([KnM_energies, KnM_gradients])
-                baseline.append(train_gap_model(kernel_base, frames_train[:nn], KnM, X_sparse_baseline, en_train[:nn], energy_zero, 
+                baseline.append(train_gap_model(kernel_base, frames_train[:nn], KnM, X_sparse_baseline, en_train[:nn], energy_baseline, 
                                     grad_train=-f_train_fl[:len(KnM_gradients[:, 0])], 
                                     lambdas=[lambda1, lambda2], jitter=1e-5,solver='RKHS-QR'))
 
@@ -425,27 +425,11 @@ energiesXTB,baseline_energies[:,0,32]
 
 
 # In[43]:
+RMSE_energies = np.zeros((len(solvers),len(ntraining), Nkvalidation), dtype='float')
+RMSE_forces = np.zeros((len(solvers),len(ntraining), Nkvalidation), dtype='float')
 
 
 for ng in range(36):
-    Nbeta = 0
-    Nbeta211 = 0
-    Ngamma = 0
-    baseline_en_beta = []
-    baseline_en_beta211 = []
-    baseline_en_gamma = []
-    for i in range(Ndataset):
-        #print(energies[i], Natoms[i])
-        if(energiesXTB[i]  > -3900.0):
-            baseline_en_gamma.append(baseline_energies[i, 0, ng])
-            Ngamma+=1
-        if(energiesXTB[i]  >= -8000.0 and energiesXTB[i] <= -7000.0):
-            baseline_en_beta.append(baseline_energies[i, 0, ng])
-            Nbeta+=1
-        if(energiesXTB[i]  <= -15000.0):
-            baseline_en_beta211.append(baseline_energies[i, 0, ng]/2.0)
-            Nbeta211+=1
-
 #     print(Nbeta, Nbeta211, Ngamma)
 #     print(Nbeta + Nbeta211 + Ngamma)
 
